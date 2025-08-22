@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Utiliser la recette : {{ recette.nom }}</h1>
+
+    <form action="{{ url_for('utiliser_recette', recette_id=recette.id) }}" method="POST">
+        <div class="mb-3">
+            <label for="volume" class="form-label">Volume à produire (L)</label>
+            <input type="number" step="0.01" min="0.01" class="form-control" id="volume" name="volume" value="1" required>
+        </div>
+
+        <h3>Ingrédients :</h3>
+        <ul>
+            {% for ing in recette.ingredients %}
+            <li>{{ ing.stock.nom }} : {{ ing.quantite_par_litre }} {{ ing.stock.unite }} / L</li>
+            {% endfor %}
+        </ul>
+
+        <button type="submit" class="btn btn-primary">Utiliser la recette</button>
+        <a href="{{ url_for('recettes') }}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Ventes</h1>
+<a href="{{ url_for('ajouter_vente') }}" class="btn btn-primary mb-3">Ajouter une vente</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Lot</th>
+            <th>Client</th>
+            <th>Quantité</th>
+            <th>Prix unitaire (€)</th>
+            <th>Total (€)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vente in ventes %}
+        <tr>
+            <td>{{ vente.date.strftime("%d/%m/%Y %H:%M") }}</td>
+            <td>{{ vente.lot.nom }}</td>
+            <td>{{ vente.client }}</td>
+            <td>{{ vente.nb_unites }}</td>
+            <td>{{ vente.prix_unitaire | round(2) }}</td>
+            <td>{{ (vente.nb_unites * vente.prix_unitaire) | round(2) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Historique des ventes pour {{ lot.nom }}</h1>
+
+<table class="table table-striped table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th>Client</th>
+      <th>Nombre d'unités</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for vente in ventes %}
+    <tr>
+      <td>{{ vente.client }}</td>
+      <td>{{ vente.nb_unites }}</td>
+      <td>{{ vente.date.strftime('%d/%m/%Y %H:%M') }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{{ url_for('lots') }}" class="btn btn-secondary">Retour aux lots</a>
+{% endblock %}

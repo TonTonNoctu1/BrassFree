@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Distillation</h2>
+    <a href="{{ url_for('home') }}" class="btn btn-secondary">⬅ Retour</a>
+</div>
+
+<!-- Formulaire ajout distillation -->
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Nouvelle distillation</h5>
+        <form method="POST" action="{{ url_for('distillation') }}">
+            <div class="mb-3">
+                <label class="form-label">Nom</label>
+                <input type="text" name="nom" class="form-control" placeholder="Ex: Rhum blanc" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Quantité (L)</label>
+                <input type="number" name="quantite" step="0.1" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Taille bouteille (L)</label>
+                <input type="number" name="taille_bouteille" step="0.1" class="form-control" placeholder="0.7" required>
+            </div>
+            <button type="submit" class="btn btn-success">➕ Ajouter</button>
+        </form>
+    </div>
+</div>
+
+<!-- Liste des distillations -->
+<h4>Historique des distillations</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Nom</th>
+            <th>Quantité (L)</th>
+            <th>Bouteilles</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for lot in lots %}
+        <tr>
+            <td>{{ lot.date.strftime("%d/%m/%Y") }}</td>
+            <td>{{ lot.nom_distillation }}</td>
+            <td>{{ lot.quantite_litres }}</td>
+            <td>{{ lot.bouteilles }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4" class="text-center text-muted">Aucune distillation enregistrée</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

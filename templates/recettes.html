@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Recettes</h1>
+
+    <!-- Bouton Ajouter une recette -->
+    <a href="{{ url_for('ajouter_recette') }}" class="btn btn-primary mb-3">Ajouter une recette</a>
+
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Nom</th>
+                <th>Ingrédients</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for recette in recettes %}
+            <tr>
+                <td>{{ recette.nom }}</td>
+                <td>
+                    {% if recette.ingredients %}
+                        <ul class="list-unstyled mb-0">
+                            {% for ing in recette.ingredients %}
+                                <li>
+                                    <strong>{{ ing.stock.nom }}</strong> :
+                                    {{ ing.quantite_par_litre }} {{ ing.stock.unite }}/L
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <em>Aucun ingrédient</em>
+                    {% endif %}
+                </td>
+                <td class="text-center">
+                    <div class="d-flex justify-content-center gap-2 flex-wrap">
+
+                        <!-- Bouton Supprimer -->
+                        <form action="{{ url_for('supprimer_recette', recette_id=recette.id) }}" method="POST" onsubmit="return confirm('Supprimer cette recette ?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+
+                        <!-- Bouton Modifier -->
+                        <a href="{{ url_for('ajouter_recette') }}?edit={{ recette.id }}" class="btn btn-secondary btn-sm">Modifier</a>
+
+                        <!-- Bouton Utiliser -->
+                        <form action="{{ url_for('utiliser_recette', recette_id=recette.id) }}" method="POST" class="d-flex align-items-center gap-1">
+                            <input type="number" name="volume" value="1" min="0.1" step="0.1" class="form-control form-control-sm" style="width:80px;" title="Volume à utiliser (L)">
+                            <button type="submit" class="btn btn-warning btn-sm">Utiliser</button>
+                        </form>
+
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

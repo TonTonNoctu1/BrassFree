@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Ajouter une vente</h1>
+
+<form method="POST">
+    <div class="mb-3">
+        <label for="client" class="form-label">Nom du client</label>
+        <input type="text" class="form-control" id="client" name="client" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="lot_id" class="form-label">Lot</label>
+        <select class="form-select" id="lot_id" name="lot_id" required>
+            {% for lot in lots %}
+            <option value="{{ lot.id }}">{{ lot.nom }} ({{ lot.nb_unites - lot.nb_unites_vendues }} unités disponibles)</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="nb_unites" class="form-label">Nombre d'unités</label>
+        <input type="number" class="form-control" id="nb_unites" name="nb_unites" min="1" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="prix_unitaire" class="form-label">Prix unitaire (€)</label>
+        <input type="number" step="0.01" class="form-control" id="prix_unitaire" name="prix_unitaire" required>
+    </div>
+
+    <button type="submit" class="btn btn-success">Ajouter la vente</button>
+    <a href="{{ url_for('ventes') }}" class="btn btn-secondary">Annuler</a>
+</form>
+{% endblock %}

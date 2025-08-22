@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Stock</h1>
+
+    <!-- Alertes -->
+    {% if alertes %}
+    <div class="alert alert-warning">
+        <strong>Alerte :</strong> Stock bas pour :
+        <ul class="mb-0">
+            {% for s in alertes %}
+            <li>{{ s.nom }} : {{ display_unit(s.quantite, s.unite)[0] }} {{ display_unit(s.quantite, s.unite)[1] }} restantes</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Nom</th>
+                <th>Quantité</th>
+                <th>Unité</th>
+                <th>Fournisseur</th>
+                <th>Seuil alerte</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in stocks %}
+            <tr>
+                <td>{{ s.nom }}</td>
+                <td>{{ display_unit(s.quantite, s.unite)[0] }}</td>
+                <td>{{ display_unit(s.quantite, s.unite)[1] }}</td>
+                <td>{{ s.fournisseur or "-" }}</td>
+                <td>{{ display_unit(s.seuil_alerte, s.unite)[0] }} {{ display_unit(s.seuil_alerte, s.unite)[1] }}</td>
+                <td>
+                    <form action="{{ url_for('supprimer_stock', stock_id=s.id) }}" method="POST" onsubmit="return confirm('Supprimer ce stock ?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('ajouter_stock') }}" class="btn btn-primary mt-3">Ajouter un stock</a>
+</div>
+{% endblock %}

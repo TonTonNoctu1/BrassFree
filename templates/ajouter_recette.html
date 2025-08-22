@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Ajouter une Recette</h1>
+
+<form method="POST">
+  <div class="mb-3">
+    <label for="nom" class="form-label">Nom de la recette</label>
+    <input type="text" class="form-control" id="nom" name="nom" required>
+  </div>
+
+  <h5>Ingrédients</h5>
+  <table class="table table-bordered" id="ingredients_table">
+    <thead>
+      <tr>
+        <th>Stock</th>
+        <th>Quantité par litre</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Une ligne initiale -->
+      <tr>
+        <td>
+          <select name="stock_id[]" class="form-select" required>
+            <option value="" disabled selected>Choisir un stock</option>
+            {% for s in stocks %}
+            <option value="{{ s.id }}">{{ s.nom }} ({{ s.unite }})</option>
+            {% endfor %}
+          </select>
+        </td>
+        <td>
+          <input type="number" step="0.01" name="quantite_par_litre[]" class="form-control" required>
+        </td>
+        <td>
+          <button type="button" class="btn btn-danger btn-sm" onclick="supprimerLigne(this)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button type="button" class="btn btn-secondary mb-3" onclick="ajouterLigne()">+ Ajouter un ingrédient</button>
+
+  <br>
+  <button type="submit" class="btn btn-primary">Ajouter la recette</button>
+  <a href="{{ url_for('recettes') }}" class="btn btn-secondary">Annuler</a>
+</form>
+
+<script>
+function ajouterLigne() {
+    let table = document.getElementById("ingredients_table").getElementsByTagName('tbody')[0];
+    let newRow = table.rows[0].cloneNode(true);
+    
+    // Reset des valeurs
+    newRow.querySelectorAll('select, input').forEach(el => el.value = '');
+    
+    table.appendChild(newRow);
+}
+
+function supprimerLigne(btn) {
+    let table = document.getElementById("ingredients_table").getElementsByTagName('tbody')[0];
+    if (table.rows.length > 1) {
+        btn.closest('tr').remove();
+    } else {
+        alert("La recette doit avoir au moins un ingrédient.");
+    }
+}
+</script>
+{% endblock %}

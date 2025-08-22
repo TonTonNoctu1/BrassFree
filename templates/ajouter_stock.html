@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Ajouter un stock</h1>
+
+<form method="POST">
+  <div class="mb-3">
+    <label>Nom :</label>
+    <input type="text" name="nom" required>
+  </div>
+
+  <div class="mb-3">
+    <label>Quantité :</label>
+    <input type="number" step="0.01" name="quantite" value="0" required>
+  </div>
+
+  <div class="mb-3">
+    <label>Unité :</label>
+    <input type="text" name="unite" value="kg" required>
+  </div>
+
+  <div class="mb-3">
+    <label>Fournisseur :</label>
+    <input type="text" name="fournisseur">
+  </div>
+
+  <div class="mb-3">
+    <label>Seuil alerte :</label>
+    <input type="number" step="0.01" name="seuil_alerte" value="0" required>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Ajouter</button>
+</form>
+{% endblock %}

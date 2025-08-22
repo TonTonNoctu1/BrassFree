@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Modifier la recette : {{ recette.nom }}</h1>
+
+    <form method="POST">
+        <div class="mb-3">
+            <label for="nom" class="form-label">Nom de la recette</label>
+            <input type="text" class="form-control" id="nom" name="nom" value="{{ recette.nom }}" required>
+        </div>
+
+        <h5>Ingrédients (quantité par litre)</h5>
+        {% for stock in stocks %}
+        {% set ing = None %}
+        {% for i in recette.ingredients %}
+            {% if i.stock_id == stock.id %}
+                {% set ing = i %}
+            {% endif %}
+        {% endfor %}
+        <div class="mb-2">
+            <label>{{ stock.nom }} ({{ stock.unite }})</label>
+            <input type="number" step="0.01" min="0" class="form-control" name="ingredient_{{ stock.id }}" 
+                   value="{{ ing.quantite_par_litre if ing else '' }}">
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-success mt-3">Enregistrer les modifications</button>
+        <a href="{{ url_for('recettes') }}" class="btn btn-secondary mt-3">Annuler</a>
+    </form>
+</div>
+{% endblock %}

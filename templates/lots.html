@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Liste des Lots</h2>
+<a href="{{ url_for('ajouter_lot') }}" class="btn btn-primary mb-3">Ajouter un Lot</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Type</th>
+            <th>Volume total (L)</th>
+            <th>Unité (L)</th>
+            <th>Nb unités</th>
+            <th>Vendues</th>
+            <th>Restantes</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for lot in lots %}
+        <tr>
+            <td>{{ lot.nom }}</td>
+            <td>{{ lot.type_produit }}</td>
+            <td>{{ lot.volume }}</td>
+            <td>{{ lot.taille_unite }}</td>
+            <td>{{ lot.nb_unites }}</td>
+            <td>{{ lot.nb_unites_vendues }}</td>
+            <td>{{ lot.nb_restantes }}</td>
+            <td>{{ lot.date.strftime('%d/%m/%Y') }}</td>
+            <td>
+                {% if lot.nb_restantes > 0 %}
+                <a href="{{ url_for('ajouter_vente') }}" class="btn btn-success btn-sm">Vendre</a>
+                {% endif %}
+                <form action="{{ url_for('supprimer_lot', lot_id=lot.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm"
+                        onclick="return confirm('Voulez-vous vraiment supprimer ce lot ?');">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

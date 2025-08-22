@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Ajouter vente pour le lot : {{ lot.nom }}</h2>
+<form method="POST">
+  <div class="mb-3">
+    <label class="form-label">Nom du client</label>
+    <input type="text" class="form-control" name="client" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Nombre d'unités</label>
+    <input type="number" class="form-control" name="nb_unites" min="1" max="{{ lot.nb_unites }}" required>
+    <div class="form-text">Il reste {{ lot.nb_unites }} unités dans ce lot.</div>
+  </div>
+  <button type="submit" class="btn btn-primary">Ajouter</button>
+  <a href="{{ url_for('lots') }}" class="btn btn-secondary">Annuler</a>
+</form>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Historique des ventes</h1>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Client</th>
+            <th>Lot</th>
+            <th>Type</th>
+            <th>Recette</th>
+            <th>Quantité vendue</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vente in ventes %}
+        <tr>
+            <td>{{ vente.client }}</td>
+            <td>{{ vente.lot.nom }}</td>
+            <td>{{ vente.lot.type_produit }}</td>
+            <td>{{ vente.lot.recette.nom if vente.lot.recette else "-" }}</td>
+            <td>{{ vente.quantite }}</td>
+            <td>{{ vente.date.strftime('%d/%m/%Y %H:%M') }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('vendre') }}" class="btn btn-primary">Nouvelle vente</a>
+{% endblock %}
